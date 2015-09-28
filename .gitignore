@@ -1,0 +1,6 @@
+*.pyc
+.editorconfig
+twistd.pid
+config.ini
+exports/
+logs/

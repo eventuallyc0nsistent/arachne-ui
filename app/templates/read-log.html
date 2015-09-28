@@ -1,0 +1,20 @@
+{% extends "master.html" %}
+
+{% block content %}
+<div class="ui main container">
+	<div class="ui grid">
+
+		<!-- BLANK ROWS -->
+		<div class="sixteen wide column"></div>
+		<div class="sixteen wide column"></div>
+		<!--/ BLANK ROWS -->
+
+		<!-- SCRAPER LOG  -->
+		<div class="sixteen wide column">
+			<pre><code class="python">{{ data }}</code></pre>
+		</div>
+		<!--/ SCRAPER LOG  -->
+
+	</div>
+</div>
+{% endblock %}

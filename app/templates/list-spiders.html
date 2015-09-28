@@ -1,0 +1,44 @@
+{% extends "master.html" %}
+
+{% block content %}
+<div class="ui main container">
+	<div class="ui grid">
+
+		<!-- BLANK ROWS -->
+		<div class="sixteen wide column"></div>
+		<div class="fourteen wide column"></div>
+		<div class="two wide column">
+			<a class="ui button" href="{{ url_for('uploadspider_bp.upload_spider_form') }}">Upload</a>
+		</div>
+		<!--/ BLANK ROWS -->
+
+		<!-- SCRAPER LIST  -->
+		<div class="sixteen wide column">
+			<table class="ui sortable celled table">
+			  <thead>
+			    <tr>
+			      <th class="twelve wide">Scraper</th>
+			      <th class="one wide"></th>
+			      <th class="one wide"></th>
+			      <th class="one wide"></th>
+			      <th class="one wide"></th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			  	{% for spider_shortname, value in spiders.items() %}
+			    <tr>
+			      <td>{{ value.desc }}</td>
+			      <td><a href="/run/{{ spider_shortname }}" class="ui button blue">{% if (running == spider_shortname) %}Running{% else %}Run{% endif%}</a></td>
+			      <td><a href="/log/{{ spider_shortname }}" class="ui button blue">Log</a></td>
+			      <td><a href="/json/{{ spider_shortname }}" class="ui button blue">JSON</a></td>
+			      <td><a href="/csv/{{ spider_shortname }}" class="ui button blue">CSV</a></td>
+			    </tr>
+			    {% endfor %}
+			  </tbody>
+			</table>
+		</div>
+		<!--/ SCRAPER LIST  -->
+
+	</div>
+</div>
+{% endblock %}
