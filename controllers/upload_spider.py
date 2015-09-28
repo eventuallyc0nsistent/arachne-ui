@@ -2,7 +2,6 @@ import os
 from app import app
 from flask import Blueprint, render_template, redirect, request, url_for
 from werkzeug import secure_filename
-from helpers.config_reader import GLOBAL_PATH
 from helpers.database import db, Scrapers
 
 ALLOWED_EXTENSIONS = set(['py'])

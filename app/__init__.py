@@ -1,10 +1,9 @@
 import os
 import sys
 import logging
-from flask import Flask, session
+from flask import Flask, session, render_template
 from datetime import timedelta, datetime
 from logging.handlers import RotatingFileHandler, SMTPHandler
-from flask.ext.sqlalchemy import SQLAlchemy
 from helpers.config_reader import (FLASK_DEBUG, GLOBAL_PATH, SECRET_KEY,
                                    SUPPORT_EMAIL, SERVER_NAME, SMTP_HOST,
                                    SMTP_TO_ADDR, SMTP_USERNAME, MANDRILL_KEY)
@@ -59,6 +58,14 @@ if not app.debug:
     mail_handler.setFormatter(mail_formatter)
     mail_handler.setLevel(logging.ERROR)
     app.logger.addHandler(mail_handler)
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('404.html'), 404
+
+@app.errorhandler(500)
+def internal_error(error):
+    return render_template('500.html'), 500
 
 # route controllers
 import controllers
