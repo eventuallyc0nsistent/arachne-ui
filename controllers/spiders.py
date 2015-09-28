@@ -57,6 +57,7 @@ def start_crawler(spider_name):
     crawler.start()
 
 def start_logger(spider_name):
+    # TODO: FIX read for files like spidername.log.1
     filename = datetime.now().strftime("%Y-%m-%d." + spider_name + ".log")
     logfile_ = logfile.LogFile(filename,
                                GLOBAL_PATH + '/logs')
