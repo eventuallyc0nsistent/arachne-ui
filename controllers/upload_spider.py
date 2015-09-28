@@ -10,7 +10,6 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
-
 uploadspider_bp = Blueprint('uploadspider_bp', __name__, template_folder='templates')
 
 @uploadspider_bp.route('/upload-spider-form/')
