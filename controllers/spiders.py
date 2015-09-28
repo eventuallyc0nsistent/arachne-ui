@@ -3,10 +3,10 @@ from datetime import datetime
 from scrapy.log import ScrapyFileLogObserver
 from scrapy.utils.misc import load_object
 from twisted.python import logfile, log as tlog
-from flask import Blueprint, render_template, send_file
+from flask import Blueprint, render_template, send_file, redirect, url_for
 from scrapy.crawler import Crawler
 from scrapy.settings import Settings
-from helpers.spider_mapping import SPIDERS
+from models.spiders import get_all_spiders, get_spidercls_name, delete_spider
 from helpers.config_reader import GLOBAL_PATH
 
 spiders_bp = Blueprint('spiders_bp', __name__, template_folder='templates')
@@ -48,7 +48,7 @@ def get_spider_settings():
     return settings
 
 def start_crawler(spider_name):
-    spidercls_name = SPIDERS[spider_name]['spidercls']
+    spidercls_name = get_spidercls_name(spider_name)
     spider_location = 'spiders'+ '.'  + \
                       '.'.join([spidercls_name, spidercls_name])
     spider = load_object(spider_location)
@@ -57,6 +57,7 @@ def start_crawler(spider_name):
     crawler.start()
 
 def start_logger(spider_name):
+
     # TODO: FIX read for files like spidername.log.1
     filename = datetime.now().strftime("%Y-%m-%d." + spider_name + ".log")
     logfile_ = logfile.LogFile(filename,
@@ -67,27 +68,30 @@ def start_logger(spider_name):
 # URLs
 @spiders_bp.route('/')
 def list_spiders():
-    return render_template('list-spiders.html', spiders=SPIDERS)
+    spiders = get_all_spiders()
+    return render_template('list-spiders.html', spiders=spiders)
 
 @spiders_bp.route('/run/<spider_name>/')
 def run_spider(spider_name):
-    if spider_name in SPIDERS:
-        start_logger(spider_name)
-        start_crawler(spider_name)
+    spiders = get_all_spiders()
+    start_logger(spider_name)
+    start_crawler(spider_name)
     return render_template('list-spiders.html',
-                           spiders=SPIDERS,
-                           running=spider_name)
+                           spiders=spiders)
 
 @spiders_bp.route('/log/<spider_name>/')
 def read_log(spider_name):
-    if spider_name in SPIDERS:
-        filename = datetime.now().strftime("%Y-%m-%d." + spider_name + ".log")
-        with open(GLOBAL_PATH + 'logs/' + filename) as logf:
-            data = logf.read()
+    filename = datetime.now().strftime("%Y-%m-%d." + spider_name + ".log")
+    with open(GLOBAL_PATH + 'logs/' + filename) as logf:
+        data = logf.read()
     return render_template('read-log.html', data=data)
 
 @spiders_bp.route('/<file_type>/<spider_name>')
 def export_json(file_type, spider_name):
-    if spider_name in SPIDERS:
-        file_ = '%sexports/%s/%s.%s' % (GLOBAL_PATH, file_type, spider_name, file_type)
-        return send_file(file_, as_attachment=True)
+    file_ = '%sexports/%s/%s.%s' % (GLOBAL_PATH, file_type, spider_name, file_type)
+    return send_file(file_, as_attachment=True)
+
+@spiders_bp.route('/delete/<spider_name>')
+def spider_del(spider_name):
+    delete_spider(spider_name)
+    return redirect(url_for('spiders_bp.list_spiders'))

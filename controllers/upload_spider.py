@@ -2,8 +2,8 @@ import os
 from app import app
 from flask import Blueprint, render_template, redirect, request, url_for
 from werkzeug import secure_filename
-from helpers.spider_mapping import SPIDERS
 from helpers.config_reader import GLOBAL_PATH
+from helpers.database import db, Scrapers
 
 ALLOWED_EXTENSIONS = set(['py'])
 def allowed_file(filename):
@@ -34,11 +34,10 @@ def upload_spider_post():
         filename = secure_filename(spider_file.filename)
         spider_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-        # update spider mapping
-        with open(GLOBAL_PATH + 'helpers/spider_mapping.py', 'w') as map_file:
-            SPIDERS[spider_name] = {'desc': spider_desc, 'spidercls': spider_cls}
-            map_file.write('SPIDERS = %s' % SPIDERS)
+        # add spider to db
+        new_spider = Scrapers(name=spider_name, description=spider_desc,
+                              spidercls=spider_cls)
+        db.session.add(new_spider)
+        db.session.commit()
 
-        return redirect(url_for('spiders_bp.list_spiders'))
-
-    return redirect('/')
+    return redirect(url_for('spiders_bp.list_spiders'))

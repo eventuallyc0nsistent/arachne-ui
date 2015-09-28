@@ -4,6 +4,7 @@ import logging
 from flask import Flask, session
 from datetime import timedelta, datetime
 from logging.handlers import RotatingFileHandler, SMTPHandler
+from flask.ext.sqlalchemy import SQLAlchemy
 from helpers.config_reader import (FLASK_DEBUG, GLOBAL_PATH, SECRET_KEY,
                                    SUPPORT_EMAIL, SERVER_NAME, SMTP_HOST,
                                    SMTP_TO_ADDR, SMTP_USERNAME, MANDRILL_KEY)
@@ -17,6 +18,7 @@ app.permanent_session_lifetime = timedelta(minutes=60)
 app.debug = FLASK_DEBUG
 app.secret_key = SECRET_KEY
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqllite:////arachne.db'
 
 #Rotating log to a file with the current date - max size 1 MB
 if not app.debug:

@@ -17,7 +17,8 @@
 			<table class="ui sortable celled table">
 			  <thead>
 			    <tr>
-			      <th class="twelve wide">Scraper</th>
+			      <th class="eleven wide">Scraper</th>
+			      <th class="one wide"></th>
 			      <th class="one wide"></th>
 			      <th class="one wide"></th>
 			      <th class="one wide"></th>
@@ -25,13 +26,14 @@
 			    </tr>
 			  </thead>
 			  <tbody>
-			  	{% for spider_shortname, value in spiders.items() %}
+			  	{% for item in spiders %}
 			    <tr>
-			      <td>{{ value.desc }}</td>
-			      <td><a href="/run/{{ spider_shortname }}" class="ui button blue">{% if (running == spider_shortname) %}Running{% else %}Run{% endif%}</a></td>
-			      <td><a href="/log/{{ spider_shortname }}" class="ui button blue">Log</a></td>
-			      <td><a href="/json/{{ spider_shortname }}" class="ui button blue">JSON</a></td>
-			      <td><a href="/csv/{{ spider_shortname }}" class="ui button blue">CSV</a></td>
+			      <td>{{ item.description }}</td>
+			      <td><a href="/run/{{ item.name }}" class="ui button blue">Run</a></td>
+			      <td><a href="/log/{{ item.name }}" class="ui button blue">Log</a></td>
+			      <td><a href="/json/{{ item.name }}" class="ui button blue">JSON</a></td>
+			      <td><a href="/csv/{{ item.name }}" class="ui button blue">CSV</a></td>
+			      <td><a href="/delete/{{ item.name }}" class="ui button red">Delete</a></td>
 			    </tr>
 			    {% endfor %}
 			  </tbody>
