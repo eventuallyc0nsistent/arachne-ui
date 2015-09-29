@@ -1,0 +1,44 @@
+{% extends "master.html" %}
+
+{% block content %}
+<div class="ui main container">
+	<div class="ui grid">
+
+		<!-- BLANK ROWS -->
+		<div class="sixteen wide column"></div>
+		<div class="sixteen wide column"></div>
+		<!--/ BLANK ROWS -->
+
+		<!-- UPLOAD SPIDER -->
+		<div class="four wide column"></div>
+		<div class="eight wide column">
+			
+			<!-- DISCLAIMER -->
+			<div class="ui message">
+				<div class="header">Disclaimer</div>
+			    <p>Make sure the spider files exists in the <b>spiders</b> directory or the scrapers won't run when you try to run them from the UI</p>
+			</div>
+
+			<form class="ui form" method="POST" action="{% if update %} {{ url_for('updatespider_bp.update_spider_post') }}{% else %} {{  url_for('updatespider_bp.add_spider_post') }}{% endif %}" enctype="multipart/form-data">
+			  <div class="field {% if spider.name %} disabled {% endif %}">
+			    <label>Spider</label>
+			    <input class="" type="text" name="spider-name" placeholder="Enter the `name` attribute in the spider class" value="{{ spider.name }}">
+			  </div>
+			  <div class="field">
+			    <label>Description</label>
+			    <input type="text" name="spider-desc" placeholder="Describe your spider" value="{{ spider.description }}">
+			  </div>
+			  <div class="field">
+			    <label>Spider Class</label>
+			    <input type="text" name="spider-cls" placeholder="Class name of your spider" value="{{ spider.spidercls }}">
+			  </div>
+			  <button class="ui button" type="submit">Save</button>
+			</form>
+		</div>
+		<div class="four wide column"></div>
+		<!--/ UPLOAD SPIDER -->
+
+	</div>
+</div>
+{% endblock %}
+

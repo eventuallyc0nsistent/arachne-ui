@@ -1,0 +1,79 @@
+{% extends "master.html" %}
+
+{% block content %}
+<div class="ui main container">
+	<div class="ui grid">
+
+		<!-- BLANK ROWS -->
+		<div class="sixteen wide column"></div>
+
+		<!-- ITEMS SCRAPED VS PAGES CRALWLED GRAPH-->
+		<div class="sixteen wide column">
+			<div id="bar-chart-legend"></div>
+			<canvas id="bar-chart" width="1100" height="400"></canvas>
+		</div>
+		<!--/ ITEMS SCRAPED VS PAGES CRALWLED GRAPH-->
+
+		<!-- SCRAPER STATS  -->
+		<div class="sixteen wide column">
+			<table class="ui sortable celled table">
+			  <thead>
+			    <tr>
+			      <th>Scraper Name</th>
+			      <th>Start Time</th>
+			      <th>Finish Time</th>
+			      <th>Items Scraped</th>
+			      <th>Pages Scraped</th>
+			      <th>Server</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			  	{% for item in stats %}
+			    <tr>
+			      <td>{{ item.scrapername }}</td>
+			      <td>{{ item.start_time }}</td>
+			      <td>{{ item.finish_time }}</td>
+			      <td>{{ item.items_scraped }}</td>
+			      <td>{{ item.pages_crawled }}</td>
+			      <td>{{ item.servername }}</td>
+			    </tr>
+			    {% endfor %}
+			  </tbody>
+			</table>
+		</div>
+		<!--/ SCRAPER STATS  -->
+	</div>
+</div>
+
+<!-- JS -->
+<script type="text/javascript">
+	$(document).ready(function(){
+		var ctx = document.getElementById("bar-chart").getContext("2d");
+		var data = {
+		    labels: {{ labels|safe }},
+		    datasets: [
+		        {
+		            label: "Pages Crawled",
+		            color: "rgba(220,220,220,0.5)",
+		            fillColor: "rgba(220,220,220,0.5)",
+		            strokeColor: "rgba(220,220,220,0.8)",
+		            highlightFill: "rgba(220,220,220,0.75)",
+		            highlightStroke: "rgba(220,220,220,1)",
+		            data: {{ pages_crawled }}
+		        },
+		        {
+		            label: "Items Scraped",
+		            color: "rgba(151,187,205,0.5)",
+		            fillColor: "rgba(151,187,205,0.5)",
+		            strokeColor: "rgba(151,187,205,0.8)",
+		            highlightFill: "rgba(151,187,205,0.75)",
+		            highlightStroke: "rgba(151,187,205,1)",
+		            data: {{ items_scraped }}
+		        }
+		    ]
+		};
+		var barChart = new Chart(ctx).Bar(data);
+		$('#bar-chart-legend').html(barChart.generateLegend());
+	})
+</script>>
+{% endblock %}

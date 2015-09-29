@@ -21,3 +21,26 @@ class Scrapers(db.Model):
     def __repr__(self):
         return '<Scrapers : id=%r, name=%s, description=%s, spidercls=%s>'\
                % (self.id, self.name, self.description, self.spidercls)
+
+class ScrapyStats(db.Model):
+    __tablename__ = 'scrapystats'
+
+    id = db.Column(db.Integer, primary_key=True)
+    scrapername = db.Column(db.String(600))
+    start_time = db.Column(db.DateTime)
+    finish_time = db.Column(db.DateTime)
+    items_scraped = db.Column(db.Integer)
+    pages_crawled = db.Column(db.Integer)
+    servername = db.Column(db.String(300))
+
+    def __init__(self, id=None, scrapername=None, start_time=None, finish_time=None, items_scraped=None, pages_crawled=None, servername=None):
+        self.id = id
+        self.scrapername = scrapername
+        self.start_time = start_time
+        self.finish_time = finish_time
+        self.items_scraped = items_scraped
+        self.pages_crawled = pages_crawled
+        self.servername = servername
+
+    def __repr__(self):
+        return "<ScrapyStats: id='%r', scrapername='%s', start_time='%s', finish_time='%s', items_scraped='%r', pages_crawled='%r', servername='%s'>" % (self.id, self.scrapername, self.start_time, self.finish_time, self.items_scraped, self.pages_crawled, self.servername)

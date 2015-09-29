@@ -5,7 +5,7 @@ from scrapy.utils.misc import load_object
 from twisted.python import logfile, log as tlog
 from scrapy.crawler import Crawler
 from scrapy.settings import Settings
-from models.spiders import get_spidercls_name
+from models.spiders import get_spider
 from helpers.config_reader import GLOBAL_PATH
 
 def create_crawler_object(spider_, settings_):
@@ -36,18 +36,22 @@ def get_spider_settings():
     settings = Settings()
     pipelines = {
         'helpers.pipelines.ExportCSV': 100,
-        'helpers.pipelines.ExportJSON': 100,
+        'helpers.pipelines.ExportJSON': 200,
+    }
+    extensions = {
+        'helpers.extensions.StatsCollectorExt': 200,
     }
     settings.set("TELNETCONSOLE_PORT", None)
     settings.set("DOWNLOAD_TIMEOUT", 800)
     settings.set("ITEM_PIPELINES", pipelines)
+    settings.set("EXTENSIONS", extensions)
     settings.set("USER_AGENT", "Kiran Koduru (+http://github.com/kirankoduru)")
     return settings
 
 def start_crawler(spider_name):
-    spidercls_name = get_spidercls_name(spider_name)
+    item = get_spider(spider_name)
     spider_location = 'spiders'+ '.'  + \
-                      '.'.join([spidercls_name, spidercls_name])
+                      '.'.join([item.spidercls, item.spidercls])
     spider = load_object(spider_location)
     settings = get_spider_settings()
     crawler = create_crawler_object(spider(), settings)

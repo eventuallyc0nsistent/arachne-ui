@@ -8,7 +8,7 @@
 		<div class="sixteen wide column"></div>
 		<div class="fourteen wide column"></div>
 		<div class="two wide column">
-			<a class="ui button" href="{{ url_for('uploadspider_bp.upload_spider_form') }}">Upload</a>
+			<a class="ui button" href="{{ url_for('updatespider_bp.add_spider_form') }}">Add Spider</a>
 		</div>
 		<!--/ BLANK ROWS -->
 
@@ -17,7 +17,9 @@
 			<table class="ui sortable celled table">
 			  <thead>
 			    <tr>
-			      <th class="eleven wide">Scraper</th>
+			      <th class="nine wide">Scraper</th>
+			      <th class="one wide"></th>
+			      <th class="one wide"></th>
 			      <th class="one wide"></th>
 			      <th class="one wide"></th>
 			      <th class="one wide"></th>
@@ -31,8 +33,10 @@
 			      <td>{{ item.description }}</td>
 			      <td><a href="/run/{{ item.name }}" class="ui button blue">Run</a></td>
 			      <td><a href="/log/{{ item.name }}" class="ui button blue">Log</a></td>
-			      <td><a href="/json/{{ item.name }}" class="ui button blue">JSON</a></td>
-			      <td><a href="/csv/{{ item.name }}" class="ui button blue">CSV</a></td>
+			      <td><a href="/export/json/{{ item.name }}" class="ui button blue">JSON</a></td>
+			      <td><a href="/export/csv/{{ item.name }}" class="ui button blue">CSV</a></td>
+			      <td><a href="/stats/{{ item.name }}" class="ui button blue">Stats</a></td>
+			      <td><a href="/update-spider-form/{{ item.name }}" class="ui icon button">Edit</a></td>
 			      <td><a href="/delete/{{ item.name }}" class="ui button red">Delete</a></td>
 			    </tr>
 			    {% endfor %}
