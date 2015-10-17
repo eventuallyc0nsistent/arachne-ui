@@ -1,6 +1,6 @@
 #Arachne
 
-_WARNING: This project is stil in the nascent stage so needs a lot of manual configuration._
+_WARNING: This project is still in it's nascent stage so needs a lot of manual configuration._
 
 
 You can control your scrapy spiders through a flask app. All you have to do is upload your spiders into the __spiders/__ directory and controll them using the spiders web UI.

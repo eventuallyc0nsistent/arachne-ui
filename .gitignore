@@ -1,4 +1,5 @@
 *.pyc
+arachne.db
 .editorconfig
 twistd.pid
 config.ini
