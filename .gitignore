@@ -4,3 +4,4 @@ twistd.pid
 config.ini
 exports/
 logs/
+venv/

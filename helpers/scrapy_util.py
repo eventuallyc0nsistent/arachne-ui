@@ -46,6 +46,7 @@ def get_spider_settings():
     settings.set("ITEM_PIPELINES", pipelines)
     settings.set("EXTENSIONS", extensions)
     settings.set("USER_AGENT", "Kiran Koduru (+http://github.com/kirankoduru)")
+
     return settings
 
 def start_crawler(spider_name):
