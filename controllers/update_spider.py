@@ -30,7 +30,7 @@ def add_spider_post():
 
     # add spider to db
     new_spider = Scrapers(name=spider_name, description=spider_desc,
-                          spidercls=spider_cls)
+                          spidercls=spider_cls, is_running=0, time_to_run=None)
     db.session.add(new_spider)
     db.session.commit()
 

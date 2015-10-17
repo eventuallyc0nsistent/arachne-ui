@@ -8,3 +8,7 @@
 #bar-chart-legend ul{
 	list-style: none;
 }
+
+.pull-right{
+	float:right;
+}

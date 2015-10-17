@@ -28,18 +28,24 @@
 			    </tr>
 			  </thead>
 			  <tbody>
-			  	{% for item in spiders %}
-			    <tr>
-			      <td>{{ item.description }}</td>
-			      <td><a href="/run/{{ item.name }}" class="ui button blue">Run</a></td>
-			      <td><a href="/log/{{ item.name }}" class="ui button blue">Log</a></td>
-			      <td><a href="/export/json/{{ item.name }}" class="ui button blue">JSON</a></td>
-			      <td><a href="/export/csv/{{ item.name }}" class="ui button blue">CSV</a></td>
-			      <td><a href="/stats/{{ item.name }}" class="ui button blue">Stats</a></td>
-			      <td><a href="/update-spider-form/{{ item.name }}" class="ui icon button">Edit</a></td>
-			      <td><a href="/delete/{{ item.name }}" class="ui button red">Delete</a></td>
-			    </tr>
-			    {% endfor %}
+			  	{% if spiders %}
+				  	{% for item in spiders %}
+				    <tr>
+				      <td>{{ item.description }} {% if item.is_running %}<i title='Spider running' class="icon green circle pull-right"></i>{% endif %}</td>
+				      <td><a href="/run/{{ item.name }}" class="ui button blue">Run</a></td>
+				      <td><a href="/log/{{ item.name }}" class="ui button blue">Log</a></td>
+				      <td><a href="/export/json/{{ item.name }}" class="ui button blue">JSON</a></td>
+				      <td><a href="/export/csv/{{ item.name }}" class="ui button blue">CSV</a></td>
+				      <td><a href="/stats/{{ item.name }}" class="ui button blue">Stats</a></td>
+				      <td><a href="/update-spider-form/{{ item.name }}" class="ui icon button">Edit</a></td>
+				      <td><a href="/delete/{{ item.name }}" class="ui button red">Delete</a></td>
+				    </tr>
+				    {% endfor %}
+			    {% else %}
+				    <tr>
+				    	<td colspan="8">No spiders added</td>
+				    </tr>
+			    {% endif %}
 			  </tbody>
 			</table>
 		</div>

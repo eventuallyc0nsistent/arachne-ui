@@ -1,6 +1,6 @@
 from scrapy import signals
-from models.spiders import add_stats
-from helpers.database import ScrapyStats
+from models.spiders import add_stats, get_spider
+from helpers.database import ScrapyStats, db
 from helpers.config_reader import SERVER_NAME
 
 
@@ -15,13 +15,17 @@ class StatsCollectorExt(object):
     @classmethod
     def from_crawler(cls, crawler):
         """
-        Implement this method
-        for running custom extensions
+        Assign methods to run for the spider signals
         """
         ext = cls(crawler.stats)
-        crawler.signals.connect(
-            ext.spider_closed, signal=signals.spider_closed)
+        crawler.signals.connect(ext.spider_opened, signal=signals.spider_opened)
+        crawler.signals.connect(ext.spider_closed, signal=signals.spider_closed)
         return ext
+
+    def spider_opened(self, spider):
+        spider_ = get_spider(spider.name)
+        spider_.is_running = 1
+        db.session.commit()
 
     def spider_closed(self, spider, reason):
         """
@@ -46,3 +50,9 @@ class StatsCollectorExt(object):
                             pages_crawled=pages_crawled_count,
                             servername=SERVER_NAME)
         add_stats(stats)
+
+        # update column to db when it stops running
+        spider_ = get_spider(spider_name)
+        spider_.is_running = 0
+        print spider_
+        db.session.commit()

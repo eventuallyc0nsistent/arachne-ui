@@ -12,15 +12,19 @@ class Scrapers(db.Model):
     name = db.Column(db.String(200))
     description = db.Column(db.String(200))
     spidercls = db.Column(db.String(200))
+    is_running = db.Column(db.Boolean)
+    time_to_run = db.Column(db.DateTime)
 
-    def __init__(self, name, description, spidercls):
+    def __init__(self, name, description, spidercls, is_running, time_to_run):
         self.name = name
         self.description = description
         self.spidercls = spidercls
+        self.is_running = is_running
+        self.time_to_run = time_to_run
 
     def __repr__(self):
-        return '<Scrapers : id=%r, name=%s, description=%s, spidercls=%s>'\
-               % (self.id, self.name, self.description, self.spidercls)
+        return '<Scrapers : id=%r, name=%s, description=%s, spidercls=%s, is_running=%d, time_to_run=%s>'\
+               % (self.id, self.name, self.description, self.spidercls, self.is_running, self.time_to_run)
 
 class ScrapyStats(db.Model):
     __tablename__ = 'scrapystats'
