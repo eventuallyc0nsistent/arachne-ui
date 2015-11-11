@@ -39,3 +39,6 @@ twistd -n web --port 8080 --wsgi app.app
 ```
 
 Open your browser and goto the location [http://localhost:8080](http://localhost:8080)
+
+__Here's how the UI looks for the sample spiders in the project__
+![Image of sample](http://kirankoduru.github.io/img/side-projects/arachne.png)
