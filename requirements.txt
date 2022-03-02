@@ -1,5 +1,5 @@
 Flask-SQLAlchemy==2.0
-Scrapy==0.24.4
+Scrapy==1.8.2
 Flask==0.10.1
 Werkzeug==0.10.4
 Jinja2==2.7.3
